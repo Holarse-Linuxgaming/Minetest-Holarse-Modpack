@@ -20,6 +20,7 @@ Beds - https://forum.minetest.net/viewtopic.php?f=11&t=9881
 Sprint - https://forum.minetest.net/viewtopic.php?f=11&t=9650
 Better HUD - https://forum.minetest.net/viewtopic.php?f=11&t=6342
 Crafting - https://forum.minetest.net/viewtopic.php?f=11&t=5641
+Item Drop - https://forum.minetest.net/viewtopic.php?f=11&t=2656
 
 ==========================================================
 
