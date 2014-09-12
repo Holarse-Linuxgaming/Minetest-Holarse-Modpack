@@ -1,10 +1,26 @@
-This is the Minetest-Holarse-Modpack. It's still in development ;)
+This is the Holarse-Game for Minetest. It's still in development ;)
 
 ==========================================================
 
 To use this game with Minetest, insert this repository as
   /games/minetest_game
 in the Minetest Engine.
+
+==========================================================
+
+This Game uses the standard game from Minetest as base.
+
+Other Mods:
+
+Mobs Redo - https://forum.minetest.net/viewtopic.php?f=11&t=9917
+Immersive Sounds - https://forum.minetest.net/viewtopic.php?f=11&t=2807
+Mesecons - https://forum.minetest.net/viewtopic.php?f=11&t=628
+Nether - https://forum.minetest.net/viewtopic.php?f=11&t=5790
+Beds - https://forum.minetest.net/viewtopic.php?f=11&t=9881
+Sprint - https://forum.minetest.net/viewtopic.php?f=11&t=9650
+Better HUD - https://forum.minetest.net/viewtopic.php?f=11&t=6342
+
+==========================================================
 
 License of source code
 ----------------------
