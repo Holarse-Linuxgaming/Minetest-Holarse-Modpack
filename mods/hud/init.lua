@@ -327,7 +327,7 @@ minetest.after(2.5, function()
 		if timer > 4 then timer = 0 end
 		if timer2 > HUD_HUNGER_TICK then timer2 = 0 end
 
-	--Loop through all connected players
+	--Loop through all connected players (Sprint)
 	for playerName,playerInfo in pairs(players) do
 	
 		player = minetest.get_player_by_name(playerName)
@@ -352,8 +352,8 @@ minetest.after(2.5, function()
 			elseif playerMovement == true and playerInfo["state"] == 2 then --Sprinting
 				players[playerName]["state"] = 3
 				player:set_physics_override({speed=SPRINT_SPEED,jump=SPRINT_JUMP})
+				end
 			end
 		end
-	end
 	end)
 end)
