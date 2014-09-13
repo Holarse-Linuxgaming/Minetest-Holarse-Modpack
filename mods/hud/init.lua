@@ -30,6 +30,12 @@ HUD_AIR_OFFSET = {x=15,y=-15}
 HUD_ARMOR_POS = {x=0.5,y=0.9}
 HUD_ARMOR_OFFSET = {x=-175, y=-15}
 
+ -- Sprint settings
+SPRINT_SPEED = 1.5 --Speed while sprinting
+SPRINT_JUMP = 1.1 --Jump height while sprinting
+
+players = {}
+
 -- dirty way to check for new statbars
 if dump(minetest.hud_replace_builtin) ~= "nil" then
 	HUD_SCALEABLE = true
@@ -242,6 +248,7 @@ end
 minetest.register_on_joinplayer(function(player)
 	local name = player:get_player_name()
 	local inv = player:get_inventory()
+	players[player:get_player_name()] = {state = 0, timeOut = 0}
 	inv:set_size("hunger",1)
 	hud.health[name] = player:get_hp()
 	if HUD_ENABLE_HUNGER then
@@ -267,6 +274,11 @@ minetest.register_on_respawnplayer(function(player)
 	if HUD_ENABLE_HUNGER then
 		minetest.after(0.5, hud.set_hunger, player)
 	end
+end)
+
+minetest.register_on_leaveplayer(function(player)
+	playerName = player:get_player_name()
+	players[playerName] = nil
 end)
 
 local main_timer = 0
@@ -314,5 +326,34 @@ minetest.after(2.5, function()
 		end
 		if timer > 4 then timer = 0 end
 		if timer2 > HUD_HUNGER_TICK then timer2 = 0 end
+
+	--Loop through all connected players
+	for playerName,playerInfo in pairs(players) do
+	
+		player = minetest.get_player_by_name(playerName)
+		if player ~= nil then
+			playerMovement = player:get_player_control()["up"]
+			
+			if playerInfo["state"] == 2 then
+				players[playerName]["timeOut"] = players[playerName]["timeOut"] + 1
+				if playerInfo["timeOut"] == 10 then
+					players[playerName]["timeOut"] = 0
+					players[playerName]["state"] = 0
+				end
+			end
+
+			if playerMovement == false and playerInfo["state"] == 3 then --Stopped
+				players[playerName]["state"] = 0
+				player:set_physics_override({speed=1.0,jump=1.0})
+			elseif playerMovement == true and playerInfo["state"] == 0 then --Moving
+				players[playerName]["state"] = 1
+			elseif playerMovement == false and playerInfo["state"] == 1 then --Primed
+				players[playerName]["state"] = 2
+			elseif playerMovement == true and playerInfo["state"] == 2 then --Sprinting
+				players[playerName]["state"] = 3
+				player:set_physics_override({speed=SPRINT_SPEED,jump=SPRINT_JUMP})
+			end
+		end
+	end
 	end)
 end)
