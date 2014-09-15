@@ -33,7 +33,7 @@ HUD_ARMOR_OFFSET = {x=-175, y=-15}
  -- Sprint settings
 SPRINT_SPEED = 1.5 --Speed while sprinting
 SPRINT_JUMP = 1.1 --Jump height while sprinting
-
+SPRINT = 0
 players = {}
 
 -- dirty way to check for new statbars
@@ -320,7 +320,7 @@ minetest.after(2.5, function()
 
 			 -- update all hud elements
 			 update_hud(player)
-			end
+			end	
 		 end
 		
 		end
@@ -341,10 +341,14 @@ minetest.after(2.5, function()
 					players[playerName]["state"] = 0
 				end
 			end
-
+      
 			if playerMovement == false and playerInfo["state"] == 3 then --Stopped
 				players[playerName]["state"] = 0
 				player:set_physics_override({speed=1.0,jump=1.0})
+			   if SPRINT == 1 then 
+        SPRINT = 0
+        HUD_HUNGER_TICK = 300
+        end
 			elseif playerMovement == true and playerInfo["state"] == 0 then --Moving
 				players[playerName]["state"] = 1
 			elseif playerMovement == false and playerInfo["state"] == 1 then --Primed
@@ -352,8 +356,13 @@ minetest.after(2.5, function()
 			elseif playerMovement == true and playerInfo["state"] == 2 then --Sprinting
 				players[playerName]["state"] = 3
 				player:set_physics_override({speed=SPRINT_SPEED,jump=SPRINT_JUMP})
-				end
+			if SPRINT == 0 then
+				SPRINT = 1
+				HUD_HUNGER_TICK = 45
+			end
+				 end
 			end
 		end
-	end)
+ 	end)
 end)
+
